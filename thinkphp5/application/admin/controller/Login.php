@@ -5,6 +5,7 @@ use think\Db;
 
 class Login extends controller
 {
+    /*注册*/
 	public function login(){
 		return $this->fetch('Login/login');
 	}
@@ -31,6 +32,7 @@ class Login extends controller
                     
                   
         }
+    /*首页*/
     public function shouye(){
 		return $this->fetch('index/index');
 
@@ -38,5 +40,17 @@ class Login extends controller
     public function welcome(){
 		return $this->fetch('index/welcome');
 
+    }
+    /*判断用户名*/
+    public function houtai()
+    {
+        $name=$_POST['name'];
+        $db=Db::name('user');
+        $res=$db->where('name',$name)->find();
+        if($res){
+            return 1;
+        }else{
+            return 2;
+        }
     }
 }
