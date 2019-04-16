@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="__CSS__/font.css">
 	<link rel="stylesheet" href="__CSS__/xadmin.css">
     <script type="text/javascript" src="__JS__/jquery-3.3.1.min.js"></script>
-    <script src="__JS__/layui/layui.js" charset="utf-8"></script>
+    <script src="__STATIC__/lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="__JS__/xadmin.js"></script>
 
 </head>
@@ -32,29 +32,35 @@
     </div>
 
     <script>
-        // $(function  () {
-        //     layui.use('form', function(){
-        //       var form = layui.form;
-        //       // layer.msg('玩命卖萌中', function(){
-        //       //   //关闭后的操作
-        //       //   });
-        //       //监听提交
-        //       form.on('submit(login)', function(data){
-        //         // alert(888)
-        //         layer.msg(JSON.stringify(data.field),function(){
-        //             location.href='index.html'
-        //         });
-        //         return false;
-        //       });
-        //     });
-        // });
+        /*判断用户名*/
+        $('#name').blur(function(){
+            var name=$('#name').val();
+            $('#name').next('span').remove();
+            $.ajax({
+                type:'post',
+                url:'__URL__/houtai',
+                dataType:"json",
+                data:{name:name},
+                success:function(data){
+                    if(data==2){
+                        if(name==''){
+                            $('<span>请输入用户名!</span>').css("color","red").insertAfter("#name");
+                        }else{
+                            $('<span>用户名不存在!</span>').css("color","red").insertAfter("#name");
+                        }
+                    }
+                },
+                error:function(data) {
 
-            $('#btn').click(function(){
+                }
+            });
+        });
+        /*点击提交判断秒*/
+        $('#btn').click(function(){
           var name=$('#name').val();
           var pass=$('#pass').val();
           $('#name').next('span').remove();
           $('#pass').next('span').remove();
-          
           $.ajax({
                    type:"POST",
                    url:"__URL__/check",
@@ -62,9 +68,9 @@
                    data:{name:name,pass:pass},
                    success:function(data){
                     if(data==1){
-                         $('#pass').after('<span>用户密码错误！</span>');
+                        $('<span>用户密码错误!</span>').css("color","red").insertAfter("#pass");
                     }else if(data==2){
-                         $('#name').after('<span>用户名不存在！</span>');
+                        $('<span>用户名不存在!</span>').css("color","red").insertAfter("#name");
                     }else{
                       window.location="__URL__/shouye";
                     }
@@ -72,16 +78,8 @@
                    error:function(jqXHR){
 
                    }
-
       });
-            
-
-
         });
-         
-
-
-        
     </script>
 
     
